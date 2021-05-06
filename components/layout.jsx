@@ -5,9 +5,11 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
 const name = 'Martin Garrix'
-export const siteTitle = 'My First NextJS'
+export const siteTitle = 'My First NextJS is here'
 
 export default function Layout({ children, home }) {
+  // console.log("HOME IS ", home); // --> home is true or undefined
+  // console.log("CHILDREN IS ", children); // --> 3 react elements
   return (
     <div className={styles.container}>
       <Head>
@@ -64,7 +66,7 @@ export default function Layout({ children, home }) {
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
-            <a>← Back to home</a>
+            <a> ← Back to home</a>
           </Link>
         </div>
       )}
