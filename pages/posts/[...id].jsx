@@ -32,7 +32,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) { // --> conducted in build in production env
-  const postData = await getPostData(params.id)
+  const postData = await getPostData(params.id.join('/'))
   // console.log("POST DATA: ", postData); // --> {id: 'ssg-ssr', title: '...', date: '...'}
   return {
     props: {
