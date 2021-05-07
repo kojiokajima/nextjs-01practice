@@ -1,8 +1,11 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import remark from 'remark'
-import html from 'remark-html'
+import remark from "remark";
+import html from "remark-html";
+import fetch from 'node-fetch'
+// import base64 from 'js-base64'
+const base64 = require('js-base64').Base64
 
 const postsDirectory = path.join(process.cwd(), "posts");
 // console.log("POSTS DIRECTORY: ", postsDirectory); // --> /Users/Koji/LearnCoding/nextjs-01practice/posts
@@ -38,9 +41,18 @@ export function getSortedPostsData() {
   });
 }
 
-export function getAllPostIds() {
-  const fileNames = fs.readdirSync(postsDirectory);
-  console.log("FILENAMES: ", fileNames);
+// export function getAllPostIds() {
+export const getAllPostIds = async () => {
+  // const fileNames = fs.readdirSync(postsDirectory);
+  // console.log("FILENAMES: ", fileNames);
+
+  // ---------------------------
+  const repoUrl = "https://api.github.com/repos/kojiokajima/nextjs-01practice/contents/posts";
+  const response = await fetch(repoUrl)
+  const files = await response.json()
+  const fileNames = files.map(file => file.name)
+  // ---------------------------
+
 
   // Returns an array that looks like this:
   // [
@@ -55,7 +67,8 @@ export function getAllPostIds() {
   //     }
   //   }
   // ]
-  return fileNames.map((fileName) => { // --> returns an array. Each item should be an object
+  return fileNames.map((fileName) => {
+    // --> returns an array. Each item should be an object
     return {
       params: {
         id: fileName.replace(/\.md$/, ""),
@@ -65,10 +78,18 @@ export function getAllPostIds() {
 }
 
 export async function getPostData(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
+  // const fullPath = path.join(postsDirectory, `${id}.md`);
+  // const fileContents = fs.readFileSync(fullPath, "utf8");
   // console.log("FULL PATH: ", fullPath); // -->  /Users/Koji/LearnCoding/nextjs-01practice/posts/ssg-ssr.md
   // console.log("FILE CONTENTS: ", fileContents); // --> actual content in the file
+
+  // ---------------------------
+  const repoUrl = `https://api.github.com/repos/kojiokajima/nextjs-01practice/contents/posts/${id}.md`;
+  const response = await fetch(repoUrl)
+  const file = await response.json()
+  const fileContents = base64.decode(file.content)
+  // ---------------------------
+
 
   // Use gray-matter to parse the post metadata section
   const matterResult = matter(fileContents);
@@ -76,13 +97,13 @@ export async function getPostData(id) {
   // Use remark to convert markdown into HTML string
   const processedContent = await remark()
     .use(html)
-    .process(matterResult.content)
-  const contentHtml = processedContent.toString()
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
 
   // Combine the data with the id
   return {
     id,
     contentHtml,
-    ...matterResult.data
-  }
+    ...matterResult.data,
+  };
 }
