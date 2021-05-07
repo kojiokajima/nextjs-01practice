@@ -8,6 +8,7 @@ import Date from '../components/date'
 export async function getStaticProps() { // --> conducted on build / each request on dev env
 // export async function getServerSideProps(context) { // --> conducted on each request
   const allPostsData = getSortedPostsData()
+  // console.log("allPostsData: ", allPostsData); // --> an array with id, title, and date of each post
   return {
     props: {
       allPostsData

@@ -1,15 +1,15 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
-import Link from 'next/link'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "./layout.module.css";
+import utilStyles from "../styles/utils.module.css";
+import Link from "next/link";
 
-const name = 'Martin Garrix'
-export const siteTitle = 'My First NextJS is here'
+const name = "Martin Garrix";
+export const siteTitle = "My First NextJS is here";
 
 export default function Layout({ children, home }) {
   // console.log("HOME IS ", home); // --> home is true or undefined
-  // console.log("CHILDREN IS ", children); // --> 3 react elements
+  // --> maybe it's for finding out if the page is root or not
   return (
     <div className={styles.container}>
       <Head>
@@ -28,7 +28,7 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        {home ? (
+        {home ? ( // --> for main page
           <>
             <Image
               priority
@@ -40,7 +40,7 @@ export default function Layout({ children, home }) {
             />
             <h1 className={utilStyles.heading2Xl}>{name}</h1>
           </>
-        ) : (
+        ) : ( // --> for other pages
           <>
             <Link href="/">
               <a>
@@ -71,5 +71,5 @@ export default function Layout({ children, home }) {
         </div>
       )}
     </div>
-  )
+  );
 }
