@@ -40,7 +40,7 @@ export function getSortedPostsData() {
 
 export function getAllPostIds() {
   const fileNames = fs.readdirSync(postsDirectory);
-  console.log("FILENAMES: ", fileNames);
+  console.log("FILENAMES: ", fileNames); // --> like [ 'pre-rendering.md', 'ssg-ssr.md' ]
 
   // Returns an array that looks like this:
   // [
