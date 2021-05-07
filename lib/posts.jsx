@@ -50,7 +50,9 @@ export const getAllPostIds = async () => {
   const repoUrl = "https://api.github.com/repos/kojiokajima/nextjs-01practice/contents/posts";
   const response = await fetch(repoUrl)
   const files = await response.json()
+  // console.log(files);
   const fileNames = files.map(file => file.name)
+  // console.log(fileNames); // --> [ 'pre-rendering.md', 'ssg-ssr.md' ]
   // ---------------------------
 
 
