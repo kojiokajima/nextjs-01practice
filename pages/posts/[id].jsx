@@ -21,7 +21,9 @@ export default function Post({ postData }) {
   );
 }
 
-export async function getStaticPaths() { // --> conducted on build / each request on dev env
+export async function getStaticPaths() {
+  // --> runs only on server side
+  // --> conducted on build / each request on dev env
   // returns a possible list of path
   const paths = await getAllPostIds(); // --> from lib -> posts.jsx
   // console.log("PATHS: ", paths); // --> [ { params: { id: 'pre-rendering' } }, { params: { id: 'ssg-ssr' } } ]
@@ -32,7 +34,9 @@ export async function getStaticPaths() { // --> conducted on build / each reques
 }
 
 export async function getStaticProps({ params }) {
-  // --> conducted in build in production env
+  // --> conducted on build / each request on dev env
+  // --> runs only on server side
+  console.log("PARAMS: ", params); // --> ex.) { id: 'ssg-ssr' }
   const postData = await getPostData(params.id);
   // console.log("POST DATA: ", postData); // --> {id: 'ssg-ssr', title: '...', date: '...'}
   return {
