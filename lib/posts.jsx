@@ -58,7 +58,8 @@ export function getAllPostIds() {
   return fileNames.map((fileName) => { // --> returns an array. Each item should be an object
     return {
       params: {
-        id: fileName.replace(/\.md$/, ""),
+        // id: fileName.replace(/\.md$/, ""),
+        id: ["hey", "yo"]
       },
     };
   });
